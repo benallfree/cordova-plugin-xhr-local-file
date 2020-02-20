@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-xhr-local-file",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "XHR polyfill to load file:// URLs",
   "repository": {
     "type": "git",
