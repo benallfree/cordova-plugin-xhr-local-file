@@ -18,5 +18,9 @@
   "bugs": {
     "url": "https://github.com/benallfree/cordova-plugin-xhr-local-file/issues"
   },
-  "homepage": "https://github.com/benallfree/cordova-plugin-xhr-local-file#readme"
+  "homepage": "https://github.com/benallfree/cordova-plugin-xhr-local-file#readme",
+  "cordova": {
+    "id": "cordova-plugin-xhr-local-file",
+    "platforms": []
+  }
 }
