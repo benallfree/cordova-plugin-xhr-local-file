@@ -1,0 +1,22 @@
+{
+  "name": "cordova-plugin-xhr-local-file",
+  "version": "0.0.1",
+  "description": "XHR polyfill to load file:// URLs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/benallfree/cordova-plugin-xhr-local-file.git"
+  },
+  "keywords": [
+    "cordova",
+    "file",
+    "xhr",
+    "xmlhttprequest",
+    "local"
+  ],
+  "author": "Ben Allfree",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/benallfree/cordova-plugin-xhr-local-file/issues"
+  },
+  "homepage": "https://github.com/benallfree/cordova-plugin-xhr-local-file#readme"
+}
