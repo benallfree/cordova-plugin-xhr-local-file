@@ -7,7 +7,7 @@
   <keywords>cordova,xhr,file,local,xmlhttprequest</keywords>
   <dependency id="cordova-plugin-file" />
 
-  <js-module src="src/xhr-polyfill.js" name="xhr-polyfill">
+  <js-module src="www/xhr-polyfill.js" name="xhr-polyfill">
     <runs/>
   </js-module>
 
