@@ -36,3 +36,7 @@ var oReq = new XMLHttpRequest()
 oReq.open('GET', 'cdvfile://localhost/bundle/www/data/foo.json')
 oReq.send()
 ```
+
+## Thanks
+
+Thanks to [Oracle](https://github.com/oracle/cordova-plugin-wkwebview-file-xhr) for their XHR polyfill implementation, upon which this one is based.

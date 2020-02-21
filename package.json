@@ -14,7 +14,7 @@
     "local"
   ],
   "author": "Ben Allfree",
-  "license": "Apache-2.0",
+  "license": "UPL",
   "bugs": {
     "url": "https://github.com/benallfree/cordova-plugin-xhr-local-file/issues"
   },
