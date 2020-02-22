@@ -10,6 +10,5 @@
   <js-module src="www/xhr-polyfill.js" name="xhr-polyfill">
     <runs/>
   </js-module>
-
-
+  <asset src="www/xhr-polyfill.js.map" target="./plugins/cordova-plugin-xhr-local-file/www/xhr-polyfill.js.map"/>
 </plugin>

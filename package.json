@@ -2,6 +2,10 @@
   "name": "cordova-plugin-xhr-local-file",
   "version": "0.0.3",
   "description": "XHR polyfill to load file:// URLs",
+  "scripts": {
+    "watch": "chokidar \"./src\" -c \"npm run build\"",
+    "build": "rollup -c"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/benallfree/cordova-plugin-xhr-local-file.git"
@@ -22,5 +26,13 @@
   "cordova": {
     "id": "cordova-plugin-xhr-local-file",
     "platforms": []
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^11.0.2",
+    "@rollup/plugin-node-resolve": "^7.1.1",
+    "rollup": "^1.31.1"
+  },
+  "dependencies": {
+    "path-browserify": "^1.0.0"
   }
 }
