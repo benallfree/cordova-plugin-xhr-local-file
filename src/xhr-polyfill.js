@@ -1,14 +1,42 @@
 const path = require('path-browserify')
 
+function parseURL(url) {
+  var parser = document.createElement('a'),
+    searchObject = {},
+    queries,
+    split,
+    i
+  // Let the browser do the work
+  parser.href = url
+  // Convert query string to object
+  queries = parser.search.replace(/^\?/, '').split('&')
+  for (i = 0; i < queries.length; i++) {
+    split = queries[i].split('=')
+    searchObject[split[0]] = split[1]
+  }
+  return {
+    protocol: parser.protocol,
+    host: parser.host,
+    hostname: parser.hostname,
+    port: parser.port,
+    pathname: parser.pathname,
+    search: parser.search,
+    searchObject: searchObject,
+    hash: parser.hash
+  }
+}
+
 // Handles native file:// XHR GET requests
 function FileHandler(reqContext) {
   this._reqContext = reqContext
 }
 
 FileHandler._getMimeType = function(reqContext) {
-  if (reqContext.overrideMimeType) return reqContext.overrideMimeType
-  else if (reqContext.responseHeaders['content-type'])
+  if (reqContext.overrideMimeType) {
+    return reqContext.overrideMimeType
+  } else if (reqContext.responseHeaders['content-type']) {
     return reqContext.responseHeaders['content-type']
+  }
 
   var url = reqContext.url
   var ext = url.substr(url.lastIndexOf('.'))
@@ -16,13 +44,14 @@ FileHandler._getMimeType = function(reqContext) {
 }
 
 FileHandler.getHandlerForResponseType = function(reqContext) {
-  var responseType = reqContext.responseType
-  if (FileHandler._RESPONSE_HANDLERS[responseType])
-    return FileHandler._RESPONSE_HANDLERS[responseType]
-  else return FileHandler._RESPONSE_HANDLERS['text']
+  return (
+    FileHandler._RESPONSE_HANDLERS[reqContext.responseType] ||
+    FileHandler._RESPONSE_HANDLERS['text']
+  )
 }
 
 FileHandler._EXT_TO_MIME = {
+  '.wav': 'audio/vnd.wav',
   '.img': 'image/jpeg',
   '.png': 'image/png',
   '.gif': 'image/gif',
@@ -110,9 +139,8 @@ FileHandler._presend = function(reqContext) {
 
 FileHandler._error = function(reqContext, e) {
   console.error(
-    'xhr-polyfill.js - native file XHR Response: Unable to find file %o\n%o',
-    reqContext.url,
-    e
+    `XHR Response for ${reqContext.url} (${result.length ||
+      result.byteLength} bytes)`
   )
 
   reqContext.status = 404
@@ -129,7 +157,8 @@ FileHandler._error = function(reqContext, e) {
 
 FileHandler._success = function(reqContext, rspTypeHandler, result) {
   console.log(
-    `xhr-polyfill.js - native file XHR Response: (${result.length} bytes)`
+    `XHR Response for ${reqContext.url} (${result.length ||
+      result.byteLength} bytes)`
   )
 
   var mimeType = FileHandler._getMimeType(reqContext)
@@ -155,12 +184,18 @@ FileHandler.prototype.send = function() {
   var reqContext = this._reqContext
   var rspTypeHandler = FileHandler.getHandlerForResponseType(reqContext)
 
-  console.log('xhr-polyfill.js - native file XHR Request:\n%o', reqContext.url)
+  console.log('xhr-polyfill.js - native file XHR Request', { reqContext })
 
   FileHandler._presend(reqContext)
 
+  const webRoot = parseURL(path.join(cordova.file.applicationDirectory, 'www'))
+  console.log({ webRoot })
+  const parsed = parseURL(reqContext.url)
+  console.log({ parsed })
+  const re = new RegExp(`^(${webRoot.pathname})`)
   const url =
-    'file://' + path.join(window.location.pathname, '..', reqContext.url)
+    'file://' + path.join(webRoot.pathname, parsed.pathname.replace(re, ''))
+  console.log({ url })
   window.resolveLocalFileSystemURL(
     url,
     entry => {
@@ -176,12 +211,12 @@ FileHandler.prototype.send = function() {
           reader[rspTypeHandler.action](file)
         },
         e => {
-          console.error('Error reading file', JSON.stringify(e))
+          console.error(`Error reading file: ${JSON.stringify(e)}`)
         }
       )
     },
     fileError => {
-      console.error('Error reading file:', url, JSON.stringify(fileError))
+      console.error(`Error reading file: ${url} - ${JSON.stringify(fileError)}`)
     }
   )
 }
@@ -278,8 +313,9 @@ DelegateHandler.prototype.send = function() {
     )
   })
 
-  if (reqContext.overrideMimeType)
+  if (reqContext.overrideMimeType) {
     delegate.overrideMimeType(reqContext.overrideMimeType)
+  }
 
   delegate.open(
     reqContext.method,
@@ -365,9 +401,7 @@ _XMLHttpRequestUpload.prototype.dispatchEvent = function(event) {
       listener.call(this, event)
     } catch (e) {
       console.log(
-        'xhr-polyfill.js - exception delivering upload event %o\n%o',
-        event,
-        e
+        `xhr-polyfill.js - exception delivering upload event ${event}\n${e}`
       )
     }
   }
@@ -574,11 +608,7 @@ window.XMLHttpRequest.prototype.dispatchEvent = function(event) {
     try {
       listener.call(this, event)
     } catch (e) {
-      console.log(
-        'xhr-polyfill.js - exception delivering event %o\n%o',
-        event,
-        e
-      )
+      console.log(`xhr-polyfill.js - exception delivering event ${event}\n${e}`)
     }
   }
 
@@ -590,9 +620,7 @@ window.XMLHttpRequest.prototype.dispatchEvent = function(event) {
         listener.call(this, event)
       } catch (e) {
         console.log(
-          'xhr-polyfill.js - exception delivering event %o\n%o',
-          event,
-          e
+          `xhr-polyfill.js - exception delivering event ${event}\n${e}`
         )
       }
     }

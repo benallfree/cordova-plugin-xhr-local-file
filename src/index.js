@@ -1,1 +1,0 @@
-import './xhr-polyfill'

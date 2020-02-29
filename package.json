@@ -4,7 +4,11 @@
   "description": "XHR polyfill to load file:// URLs",
   "scripts": {
     "watch": "chokidar \"./src\" -c \"npm run build\"",
-    "build": "rollup -c"
+    "build": "npm run build:clean && npm run build:ts && npm run build:rollup",
+    "build:clean": "shx rm -rf build tstmp",
+    "build:rollup": "rollup -c",
+    "build:ts": "shx rm -rf ./tstmp && tsc",
+    "postinstall": "npm-relink"
   },
   "repository": {
     "type": "git",
@@ -30,7 +34,11 @@
   "devDependencies": {
     "@rollup/plugin-commonjs": "^11.0.2",
     "@rollup/plugin-node-resolve": "^7.1.1",
-    "rollup": "^1.31.1"
+    "npm-relink": "0.0.1",
+    "rollup": "^1.31.1",
+    "shx": "^0.3.2",
+    "tslib": "^1.11.0",
+    "typescript": "^3.8.2"
   },
   "dependencies": {
     "path-browserify": "^1.0.0"
