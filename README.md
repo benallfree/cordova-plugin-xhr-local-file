@@ -4,8 +4,6 @@ This plugin is a polyfill for XmlHTTPRequest that will handle the `file://` prot
 
 ## Installation
 
-You can install this plugin with Cordova CLI, from npm:
-
 ```
 $ cordova plugin add cordova-plugin-xhr-local-file
 $ cordova prepare
@@ -13,9 +11,10 @@ $ cordova prepare
 
 ## Usage
 
-You may now make XHR requests to local files. Moreover, other JS libraries that load assets via XHR will now function normally.
+You may now make XHR requests to local files. Moreover, other JS libraries that load assets via XHR will now function normally even when loading
+assets from your Cordova app's filesystem.
 
-Since Cordova apps are loaded from `file://`, every relative URL uses the `file://` protocol by default. This library resolves relative and absolute URLs using the Cordova `www` folder as the webroot.
+Since Cordova apps are loaded from `file://`, every relative URL uses the `file://` protocol. This library resolves relative and absolute URLs using the Cordova `www` folder as the webroot.
 
 ```javascript
 var oReq = new XMLHttpRequest()
