@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-xhr-local-file",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "XHR polyfill to load file:// URLs",
   "scripts": {
     "watch": "chokidar \"./src\" -c \"npm run build\"",
@@ -36,9 +36,8 @@
     "rollup": "^1.31.1",
     "shx": "^0.3.2",
     "tslib": "^1.11.0",
-    "typescript": "^3.8.2"
-  },
-  "dependencies": {
+    "typescript": "^3.8.2",
     "path-browserify": "^1.0.0"
-  }
+  },
+  "dependencies": {}
 }
