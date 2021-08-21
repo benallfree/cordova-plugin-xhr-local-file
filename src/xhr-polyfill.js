@@ -337,7 +337,7 @@ DelegateHandler.prototype.send = function() {
   reqContext.requestData = undefined
 
   // returns a native FormData from the plugin's polyfill
-  if (FormData.prototype.isPrototypeOf(requestData))
+  if (FormData.prototype.isPrototypeOf(requestData) && requestData.__getNative && Function.prototype.isPrototypeOf(requestData.__getNative))
     requestData = requestData.__getNative()
 
   delegate.send(requestData)
